@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
   });
 });
 
+app.use('/api/v1/auth', require('./routes/userRoutes'));
 //LISTEN
 const server = app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`.bgGreen.bold.white),
