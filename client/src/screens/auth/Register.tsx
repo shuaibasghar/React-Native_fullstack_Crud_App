@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
 import CustomInput from '../../components/forms/CustomInput';
-import SubmitButton from '../../components/SubmitButton';
+import SubmitButton from '../../components/forms/SubmitButton';
+import axios from 'axios';
 interface RegisterProps {
   navigation: any;
 }
@@ -12,7 +13,7 @@ const Register: React.FC<RegisterProps> = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       setLoading(true);
       if (!name || !email || !password) {
@@ -21,8 +22,16 @@ const Register: React.FC<RegisterProps> = ({navigation}) => {
         return;
       }
       setLoading(false);
+      const {data} = await axios.post('/auth/register', {
+        name,
+        email,
+        password,
+      });
+      Alert.alert(data && data.message);
+      navigation.navigate('Login');
       console.log('Register Data', {name, email, password});
-    } catch (error) {
+    } catch (error: any) {
+      Alert.alert(error.response.data.message);
       setLoading(false);
       console.log('Error in Register', error);
     }
