@@ -87,7 +87,6 @@ const loginController = async (req, res) => {
     const token = await JWT.sign({_id: user?._id}, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });
-
     //undefine the password to hide it in response
     user.password = undefined;
     res.status(200).send({

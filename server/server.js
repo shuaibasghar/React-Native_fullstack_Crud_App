@@ -23,11 +23,13 @@ const PORT = process.env.PORT;
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'Hello World',
+    message: 'welcome to crud app',
   });
 });
 
 app.use('/api/v1/auth', require('./routes/userRoutes'));
+app.use('/api/v1/post', require('./routes/postRoutes'));
+
 //LISTEN
 const server = app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`.bgGreen.bold.white),
