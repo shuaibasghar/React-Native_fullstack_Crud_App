@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {createContext, useEffect, useState} from 'react';
 
@@ -20,7 +21,7 @@ const AuthProvider = ({children}) => {
       let data = await AsyncStorage.getItem('token');
       //parse josn data
       let loginData = JSON.parse(data);
-      setState({...state, user: data?.user, token: data?.token});
+      setState({...state, user: loginData?.user, token: loginData?.token});
     };
     LoadLocalStorageData();
   }, []);
