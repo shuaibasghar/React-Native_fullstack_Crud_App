@@ -1,6 +1,13 @@
 const JWT = require('jsonwebtoken');
 const {hashPassword, comparePassword} = require('../helpers/authHelper');
 const User = require('../models/useModel');
+var {expressjwt: jwt} = require('express-jwt');
+//middleware
+//
+const requireSignin = jwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ['HS256'],
+});
 
 const registerController = async (req, res) => {
   try {
@@ -132,4 +139,9 @@ const updateUserController = async (req, res) => {
     res.status(500).send({success: false, message: 'Error In User Update Api'});
   }
 };
-module.exports = {registerController, loginController, updateUserController};
+module.exports = {
+  registerController,
+  loginController,
+  updateUserController,
+  requireSignin,
+};

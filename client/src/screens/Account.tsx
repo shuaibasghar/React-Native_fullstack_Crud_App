@@ -27,11 +27,20 @@ const Account = () => {
   const handleUpdate = async () => {
     try {
       setLoading(true);
-      const {data} = await axios.put('/auth/update-user', {
-        name,
-        password,
-        email,
-      });
+      const {data} = await axios.put(
+        '/auth/update-user',
+        {
+          name,
+          password,
+          email,
+        },
+        // use incontext provide
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token && token}`,
+        //   },
+        // },
+      );
       setLoading(false);
       let UD = JSON.stringify(data);
       console.log('UD', UD);

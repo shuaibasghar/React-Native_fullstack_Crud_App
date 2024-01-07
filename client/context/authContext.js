@@ -12,6 +12,8 @@ const AuthProvider = ({children}) => {
     token: '',
   });
 
+  //default headers for authorization token
+  axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
   //default axios setting
   axios.defaults.baseURL = 'http://192.168.43.223:8080/api/v1';
 

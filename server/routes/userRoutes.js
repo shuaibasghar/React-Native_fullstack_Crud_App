@@ -3,6 +3,7 @@ const {
   registerController,
   loginController,
   updateUserController,
+  requireSignin,
 } = require('../controllers/userController');
 
 //router object
@@ -13,5 +14,5 @@ router.post('/register', registerController);
 router.post('/login', loginController);
 
 //update user
-router.put('/update-user', updateUserController);
+router.put('/update-user', requireSignin, updateUserController);
 module.exports = router;
