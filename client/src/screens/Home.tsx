@@ -1,19 +1,35 @@
-import React, {useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {AuthContext} from '../../context/authContext';
+import {View, Text, StyleSheet, ScrollView, RefreshControl} from 'react-native';
+import React, {useContext, useState, useCallback, useEffect} from 'react';
 import FooterMenu from '../components/Menus/FooterMenu';
+import PostCard from '../components/PostCard';
+import {PostContext} from '../../context/postContext';
 
-interface Props {
-  title: string;
-}
-
-const Home: React.FC = () => {
-  //global state
-  const [state] = useContext(AuthContext);
+const Home = () => {
+  // global state
+  const [posts, getAllPosts] = useContext(PostContext);
+  const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {}, [getAllPosts]);
+  //refresh controll
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getAllPosts;
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{JSON.stringify(state, null, 4)}</Text>
-      <FooterMenu />
+      <ScrollView
+      // refreshControl={
+      //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      // }
+      >
+        <PostCard posts={posts} />
+        {/* <Text>{JSON.stringify(posts, null, 4)}</Text> */}
+      </ScrollView>
+      <View style={{backgroundColor: '#ffffff'}}>
+        <FooterMenu />
+      </View>
     </View>
   );
 };
@@ -21,11 +37,8 @@ const Home: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    margin: 10,
     justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
 });
 
