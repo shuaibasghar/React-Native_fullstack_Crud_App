@@ -72,8 +72,66 @@ const getUserPostsController = async (req, res) => {
   }
 };
 
+//DELETE USER POSTS
+const deletePostController = async (req, res) => {
+  try {
+    const {id} = req.params;
+    await postModel.findByIdAndDelete({_id: id});
+    res.status(200).json({
+      success: true,
+      message: 'Post Deleted Successfully',
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error in Delete Post Api',
+      error,
+    });
+  }
+};
+
+//UPDATE USER POSTS
+const updatePostController = async (req, res) => {
+  try {
+    const {title, description} = req.body;
+    //POST FIND
+
+    const post = postModel.findById({_id: req.params.id});
+    //VALIDATION
+    if (!title || !description) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please Provide all the fields',
+      });
+    }
+    const updatedPost = await postModel.findByIdAndUpdate(
+      {_id: req.params.id},
+      {
+        title: title || post?.title,
+
+        description: description || post?.description,
+      },
+      {new: true},
+    );
+    res.status(200).json({
+      success: true,
+      message: 'Post Updated Successfully',
+      updatedPost,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error in Update Post Api',
+      error,
+    });
+  }
+};
 module.exports = {
   createPostController,
   getAllPostsController,
   getUserPostsController,
+  deletePostController,
+  updatePostController,
 };

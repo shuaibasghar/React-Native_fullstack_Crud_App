@@ -20,10 +20,9 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <ScrollView
-      // refreshControl={
-      //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      // }
-      >
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <PostCard posts={posts} />
         {/* <Text>{JSON.stringify(posts, null, 4)}</Text> */}
       </ScrollView>

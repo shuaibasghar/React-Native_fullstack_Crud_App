@@ -6,17 +6,31 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import EditModal from './EditModal';
 
-interface posts {
-  posts: any;
+interface Post {
+  _id: string;
+  title: string;
+  description: string;
+  postedBy: {
+    name: string;
+  };
+  createdAt: string;
+}
+
+interface PostCardProps {
+  posts: Post[];
   myPostScreen?: boolean;
 }
-const PostCard = ({posts, myPostScreen}) => {
+interface ResponseData {
+  message: string;
+}
+
+const PostCard: React.FC<PostCardProps> = ({posts, myPostScreen}) => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState<Post | null>(null);
   const navigation = useNavigation();
   //handle delete prompt
-  const handleDeletePropmt = id => {
+  const handleDeletePrompt = id => {
     Alert.alert('Attention!', 'Are You Sure Want to delete this post?', [
       {
         text: 'Cancel',
@@ -35,11 +49,13 @@ const PostCard = ({posts, myPostScreen}) => {
   const handleDeletePost = async id => {
     try {
       setLoading(true);
-      const {data} = await axios.delete(`/post/delete-post/${id}`);
+      const {data} = await axios.delete<ResponseData>(
+        `/post/delete-post/${id}`,
+      );
       setLoading(false);
       Alert.alert(data?.message);
-      //   navigation.push('Myposts');
-    } catch (error) {
+      navigation.push('Myposts');
+    } catch (error: any) {
       setLoading(false);
       console.log(error);
       Alert.alert(error);
@@ -48,13 +64,13 @@ const PostCard = ({posts, myPostScreen}) => {
   return (
     <View>
       <Text style={styles.heading}>Total Posts {posts?.length}</Text>
-      {/* {myPostScreen && (
+      {myPostScreen && (
         <EditModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           post={post}
         />
-      )} */}
+      )}
       {posts?.map((post, i) => (
         <View style={styles.card} key={i}>
           {myPostScreen && (
@@ -74,7 +90,7 @@ const PostCard = ({posts, myPostScreen}) => {
                   name="trash"
                   size={16}
                   color={'red'}
-                  onPress={() => handleDeletePropmt(post?._id)}
+                  onPress={() => handleDeletePrompt(post?._id)}
                 />
               </Text>
             </View>

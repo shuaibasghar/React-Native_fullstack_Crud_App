@@ -14,12 +14,24 @@ import Myposts from '../../screens/Myposts';
 // import About from '../../screens/About';
 // import Account from '../../screens/Account';
 // import Myposts from '../../screens/Myposts';
+
+export type RootStackParamList = {
+  Home: undefined;
+  Post: undefined;
+  About: undefined;
+  Account: undefined;
+  Myposts: undefined;
+  Login: undefined;
+  Register: undefined;
+};
+
 const ScreenMenu = () => {
   //global state
   const [state] = useContext(AuthContext);
   //auth condition true false
   const authenticatedUser = state?.user && state?.token;
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<RootStackParamList>();
+
   return (
     <Stack.Navigator initialRouteName="Login">
       {authenticatedUser ? (
