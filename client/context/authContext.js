@@ -11,7 +11,7 @@ const AuthProvider = ({children}) => {
     user: null,
     token: '',
   });
-
+  const [loading, setLoading] = useState(false);
   //default headers for authorization token
   axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
   //default axios setting
