@@ -6,6 +6,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import EditModal from './EditModal';
 
+interface posts {
+  posts: any;
+  myPostScreen?: boolean;
+}
 const PostCard = ({posts, myPostScreen}) => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
